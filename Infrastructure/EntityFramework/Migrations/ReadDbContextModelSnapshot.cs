@@ -22,6 +22,39 @@ namespace Infrastructure.EntityFramework.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Infrastructure.EntityFramework.ReadModel.Proyectos.ActualizacionReadModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Descripcion");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("fecha");
+
+                    b.Property<Guid>("ProyectoId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("proyectoId");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("usuarioId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProyectoId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Actualizacion", (string)null);
+                });
+
             modelBuilder.Entity("Infrastructure.EntityFramework.ReadModel.Proyectos.ColaboradorReadModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -75,6 +108,35 @@ namespace Infrastructure.EntityFramework.Migrations
                     b.ToTable("Comentario", (string)null);
                 });
 
+            modelBuilder.Entity("Infrastructure.EntityFramework.ReadModel.Proyectos.DonacionReadModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<decimal>("Monto")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)")
+                        .HasColumnName("monto");
+
+                    b.Property<Guid>("ProyectoId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("proyectoId");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("usuarioId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProyectoId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Donacion", (string)null);
+                });
+
             modelBuilder.Entity("Infrastructure.EntityFramework.ReadModel.Proyectos.ProyectoReadModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -91,10 +153,23 @@ namespace Infrastructure.EntityFramework.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("descripcion");
 
-                    b.Property<decimal>("Monto")
+                    b.Property<decimal>("DonacionEsperada")
                         .HasPrecision(14, 2)
                         .HasColumnType("decimal(14,2)")
-                        .HasColumnName("monto");
+                        .HasColumnName("donacionEsperada");
+
+                    b.Property<decimal>("DonacionRecibida")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)")
+                        .HasColumnName("donacionRecibida");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("fechaCreacion");
+
+                    b.Property<Guid>("TipoProyectoId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("tipoProyectoId");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
@@ -104,6 +179,8 @@ namespace Infrastructure.EntityFramework.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreadorId");
+
+                    b.HasIndex("TipoProyectoId");
 
                     b.ToTable("Proyecto", (string)null);
                 });
@@ -123,6 +200,42 @@ namespace Infrastructure.EntityFramework.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuario", (string)null);
+                });
+
+            modelBuilder.Entity("Infrastructure.EntityFramework.ReadModel.TiposProyectos.TipoProyectoReadModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("nombre");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TipoProyecto", (string)null);
+                });
+
+            modelBuilder.Entity("Infrastructure.EntityFramework.ReadModel.Proyectos.ActualizacionReadModel", b =>
+                {
+                    b.HasOne("Infrastructure.EntityFramework.ReadModel.Proyectos.ProyectoReadModel", "Proyecto")
+                        .WithMany("Actualizaciones")
+                        .HasForeignKey("ProyectoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Infrastructure.EntityFramework.ReadModel.Proyectos.UsuarioReadModel", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Proyecto");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Infrastructure.EntityFramework.ReadModel.Proyectos.ColaboradorReadModel", b =>
@@ -163,6 +276,25 @@ namespace Infrastructure.EntityFramework.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("Infrastructure.EntityFramework.ReadModel.Proyectos.DonacionReadModel", b =>
+                {
+                    b.HasOne("Infrastructure.EntityFramework.ReadModel.Proyectos.ProyectoReadModel", "Proyecto")
+                        .WithMany("Donaciones")
+                        .HasForeignKey("ProyectoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Infrastructure.EntityFramework.ReadModel.Proyectos.UsuarioReadModel", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Proyecto");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("Infrastructure.EntityFramework.ReadModel.Proyectos.ProyectoReadModel", b =>
                 {
                     b.HasOne("Infrastructure.EntityFramework.ReadModel.Proyectos.UsuarioReadModel", "Creador")
@@ -171,14 +303,26 @@ namespace Infrastructure.EntityFramework.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Infrastructure.EntityFramework.ReadModel.TiposProyectos.TipoProyectoReadModel", "TipoProyecto")
+                        .WithMany()
+                        .HasForeignKey("TipoProyectoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Creador");
+
+                    b.Navigation("TipoProyecto");
                 });
 
             modelBuilder.Entity("Infrastructure.EntityFramework.ReadModel.Proyectos.ProyectoReadModel", b =>
                 {
+                    b.Navigation("Actualizaciones");
+
                     b.Navigation("Colaboradores");
 
                     b.Navigation("Comentarios");
+
+                    b.Navigation("Donaciones");
                 });
 #pragma warning restore 612, 618
         }

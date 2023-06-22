@@ -1,4 +1,5 @@
 ﻿using Application.Dto.Proyectos;
+using Application.Dto.TiposProyectos;
 using Application.UseCase.Query.Proyectos;
 using Infrastructure.EntityFramework.Context;
 using Infrastructure.EntityFramework.ReadModel.Proyectos;
@@ -25,10 +26,13 @@ namespace Infrastructure.Query.Proyectos
             var lista = await query.Select(x => new ProyectoDto
             {
                 Id = x.Id,
+                FechaCreacion = x.FechaCreacion,
                 Titulo = x.Titulo,
                 Descripcion = x.Descripcion,
-                Monto = x.Monto,
+                DonacionEsperada = x.DonacionEsperada,
+                DonacionRecibida = x.DonacionRecibida,
                 Creador = new UsuarioDto { Id = x.Creador.Id, NombreCompleto=x.Creador.NombreCompleto},
+                Tipo = new TipoProyectoDto { Id = x.TipoProyecto.Id, Nombre= x.TipoProyecto.Nombre},
                 Comentarios = x.Comentarios.Select(c => new ComentarioDto
                 {
                     Id = c.Id,
@@ -40,7 +44,22 @@ namespace Infrastructure.Query.Proyectos
                 {
                     Id = c.Id,
                     Usuario = new UsuarioDto { Id = c.Usuario.Id, NombreCompleto = c.Usuario.NombreCompleto },
-                }).ToList()
+                }).ToList(),
+                Actualizaciones = x.Actualizaciones.Select(c => new ActualizacionDto
+                {
+                    Id = c.Id,
+                    Fecha = c.Fecha,
+                    Descripcion = c.Descripcion,
+                    Usuario = new UsuarioDto { Id = c.Usuario.Id, NombreCompleto = c.Usuario.NombreCompleto },
+
+                }).ToList(),
+                Donaciones = x.Donaciones.Select(c => new DonacionDto
+                {
+                    Id = c.Id,
+                    Monto = c.Monto,
+                    Usuario = new UsuarioDto { Id = c.Usuario.Id, NombreCompleto = c.Usuario.NombreCompleto },
+
+                }).ToList(),
             }).ToListAsync();
             return lista;
         }

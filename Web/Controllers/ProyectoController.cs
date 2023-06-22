@@ -1,4 +1,5 @@
-﻿using Application.UseCase.Command.Proyectos.AgregarColaborador;
+﻿using Application.UseCase.Command.Proyectos.AgregarActualizacion;
+using Application.UseCase.Command.Proyectos.AgregarColaborador;
 using Application.UseCase.Command.Proyectos.CrearProyecto;
 using Application.UseCase.Command.Proyectos.EliminarColaborador;
 using Application.UseCase.Command.Proyectos.EliminarProyecto;
@@ -142,5 +143,22 @@ namespace Web.Controllers
                 return BadRequest();
             }
         }
+
+        [Route("actualizacion")]
+        [HttpPost]
+        public async Task<IActionResult> AgregarActualizacion([FromBody] AgregarActualizacionCommand command)
+        {
+            try
+            {
+                var resultGuid = await _mediator.Send(command);
+                return Ok(resultGuid);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al agregar la actualizacion");
+                return BadRequest();
+            }
+        }
+
     }
 }

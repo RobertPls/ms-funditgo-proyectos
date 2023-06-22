@@ -21,7 +21,12 @@ namespace Infrastructure.EntityFramework.Repository.Proyectos
 
         public async Task<Proyecto?> FindByIdAsync(Guid id)
         {
-            return await _context.Proyecto.Include(p => p.Colaboradores).Include(p => p.Comentarios).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Proyecto
+                .Include(p => p.Colaboradores)
+                .Include(p => p.Comentarios)
+                .Include(p => p.Actualizaciones)
+                .Include(p => p.Donaciones)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public Task RemoveAsync(Proyecto obj)
@@ -34,6 +39,12 @@ namespace Infrastructure.EntityFramework.Repository.Proyectos
         {
             foreach (var e in obj.DomainEvents)
             {
+                if (e is ActualizacionAgregada)
+                {
+                    var evento = (ActualizacionAgregada)e;
+                    var actualizacion = obj.Actualizaciones.FirstOrDefault(c => c.Id== evento.ActualizacionId);
+                    await _context.Actualizacion.AddAsync(actualizacion);
+                }
                 if (e is ColaboradorAgregado)
                 {
                     var evento = (ColaboradorAgregado)e;

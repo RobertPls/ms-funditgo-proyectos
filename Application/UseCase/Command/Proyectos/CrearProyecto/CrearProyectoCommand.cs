@@ -7,11 +7,13 @@ namespace Application.UseCase.Command.Proyectos.CrearProyecto
     {
         public Guid CreadorId { get; set; }
 
+        public Guid TipoproyectoId { get; set; }
+
         public string Titulo { get; set; }
 
         public string Descripcion { get; set; }
 
-        public long Monto { get; set; }
+        public decimal DonacionEsperada { get; set; }
 
 
     }

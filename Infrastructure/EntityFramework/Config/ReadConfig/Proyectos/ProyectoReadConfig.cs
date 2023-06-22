@@ -12,16 +12,22 @@ namespace Infrastructure.EntityFramework.Config.ReadConfig.Proyectos
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("id");
 
+            builder.Property(x => x.FechaCreacion)
+                .HasColumnName("fechaCreacion");
+
             builder.Property(x => x.Titulo)
                 .HasColumnName("titulo");
 
             builder.Property(x => x.Descripcion)
                 .HasColumnName("descripcion");
 
-            builder.Property(x => x.Monto)
-                .HasColumnName("monto")
+            builder.Property(x => x.DonacionEsperada)
+                .HasColumnName("donacionEsperada")
                 .HasPrecision(14, 2);
 
+            builder.Property(x => x.DonacionRecibida)
+                .HasColumnName("donacionRecibida")
+                .HasPrecision(14, 2);
 
             builder.Property(x => x.CreadorId)
                 .HasColumnName("creadorId");
@@ -31,11 +37,26 @@ namespace Infrastructure.EntityFramework.Config.ReadConfig.Proyectos
                 .HasForeignKey(x => x.CreadorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Property(x => x.TipoProyectoId)
+                .HasColumnName("tipoProyectoId");
+
+            builder.HasOne(x => x.TipoProyecto)
+                .WithMany()
+                .HasForeignKey(x => x.TipoProyectoId);
+
             builder.HasMany(x => x.Comentarios)
                 .WithOne(x => x.Proyecto)
                 .HasForeignKey(x => x.ProyectoId);
 
             builder.HasMany(x => x.Colaboradores)
+                .WithOne(x => x.Proyecto)
+                .HasForeignKey(x => x.ProyectoId);
+
+            builder.HasMany(x => x.Actualizaciones)
+                .WithOne(x => x.Proyecto)
+                .HasForeignKey(x => x.ProyectoId);
+
+            builder.HasMany(x => x.Donaciones)
                 .WithOne(x => x.Proyecto)
                 .HasForeignKey(x => x.ProyectoId);
         }

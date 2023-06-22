@@ -4,9 +4,9 @@ namespace Domain.Factory.Proyectos
 {
     public class ProyectoFactory : IProyectoFactory
     {
-        public Proyecto Crear(Guid creadorId, string titulo, string descripcion, decimal monto)
+        public Proyecto Crear(Guid creadorId, Guid tipoProyectoId, string titulo, string descripcion, decimal donacionEsperada)
         {
-            return new Proyecto(creadorId, titulo, descripcion, monto);
+            return new Proyecto(creadorId, tipoProyectoId, titulo, descripcion, donacionEsperada);
         }
     }
 }

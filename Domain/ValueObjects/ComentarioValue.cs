@@ -10,9 +10,9 @@ namespace Domain.ValueObjects
         public ComentarioValue(string comentario)
         {
             CheckRule(new StringNotNullOrEmptyRule(comentario));
-            if (comentario.Length > 1000)
+            if (comentario.Length > 100)
             {
-                throw new BussinessRuleValidationException("Comentario no puede tener mas de 1000 caracteres");
+                throw new BussinessRuleValidationException("Comentario no puede tener mas de 100 caracteres");
             }
             Comentario = comentario;
         }

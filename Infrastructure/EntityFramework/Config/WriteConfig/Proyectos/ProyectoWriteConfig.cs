@@ -13,7 +13,11 @@ namespace Infrastructure.EntityFramework.Config.WriteConfig.Proyectos
             builder.ToTable("Proyecto");
             builder.HasKey(x => x.Id);
 
+            builder.Property(x => x.FechaCreacion).HasColumnName("fechaCreacion");
+
             builder.Property(x => x.CreadorId).HasColumnName("creadorId");
+
+            builder.Property(x => x.TipoProyectoId).HasColumnName("tipoProyectoId");
 
             var tituloConverter = new ValueConverter<TituloValue, string>(
                 tituloValue => tituloValue.Titulo,
@@ -29,11 +33,18 @@ namespace Infrastructure.EntityFramework.Config.WriteConfig.Proyectos
 
 
 
-            var montoConverter = new ValueConverter<PrecioValue, decimal>(
-                montoValue => montoValue.Value,
+            var donacionEsperadaConverter = new ValueConverter<DonacionValue, decimal>(
+                donacionEsperadaValue => donacionEsperadaValue.Value,
+                decimalValue => new DonacionValue(decimalValue)
+            );
+            builder.Property(x => x.DonacionEsperada).HasColumnName("DonacionEsperada").HasConversion(donacionEsperadaConverter);
+
+            var donacionRecibidaConverter = new ValueConverter<PrecioValue, decimal>(
+                donacionRecibidaValue => donacionRecibidaValue.Value,
                 decimalValue => new PrecioValue(decimalValue)
             );
-            builder.Property(x => x.Monto).HasColumnName("monto").HasConversion(montoConverter);
+            builder.Property(x => x.DonacionRecibida).HasColumnName("DonacionRecibida").HasConversion(donacionRecibidaConverter);
+
 
 
             builder.Ignore(x => x.DomainEvents);
