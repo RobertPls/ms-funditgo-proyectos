@@ -1,5 +1,6 @@
 ﻿using Application.UseCase.Command.Proyectos.AgregarActualizacion;
 using Application.UseCase.Command.Proyectos.AgregarColaborador;
+using Application.UseCase.Command.Proyectos.AgregarDonacion;
 using Application.UseCase.Command.Proyectos.CrearProyecto;
 using Application.UseCase.Command.Proyectos.EliminarColaborador;
 using Application.UseCase.Command.Proyectos.EliminarProyecto;
@@ -156,6 +157,22 @@ namespace Web.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al agregar la actualizacion");
+                return BadRequest();
+            }
+        }
+
+        [Route("donacion")]
+        [HttpPost]
+        public async Task<IActionResult> AgregarDonacion([FromBody] AgregarDonacionCommand command)
+        {
+            try
+            {
+                var resultGuid = await _mediator.Send(command);
+                return Ok(resultGuid);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al agregar la donacion");
                 return BadRequest();
             }
         }

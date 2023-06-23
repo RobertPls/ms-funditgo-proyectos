@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.EntityFramework.Migrations
 {
     [DbContext(typeof(ReadDbContext))]
-    [Migration("20230622194112_Estructura Inicial")]
+    [Migration("20230622221718_Estructura Inicial")]
     partial class EstructuraInicial
     {
         /// <inheritdoc />
@@ -118,6 +118,11 @@ namespace Infrastructure.EntityFramework.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("estado");
+
                     b.Property<decimal>("Monto")
                         .HasPrecision(14, 2)
                         .HasColumnType("decimal(14,2)")
@@ -165,6 +170,11 @@ namespace Infrastructure.EntityFramework.Migrations
                         .HasPrecision(14, 2)
                         .HasColumnType("decimal(14,2)")
                         .HasColumnName("donacionRecibida");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("estado");
 
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2")

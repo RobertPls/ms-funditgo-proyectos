@@ -43,6 +43,7 @@ namespace Infrastructure.EntityFramework.Migrations
                     creadorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     tipoProyectoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     fechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     donacionEsperada = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
@@ -150,7 +151,8 @@ namespace Infrastructure.EntityFramework.Migrations
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     monto = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
                     usuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    proyectoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    proyectoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    estado = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

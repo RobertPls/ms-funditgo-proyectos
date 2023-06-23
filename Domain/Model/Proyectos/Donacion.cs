@@ -1,4 +1,5 @@
-﻿using Domain.ValueObjects;
+﻿using Domain.Model.Proyectos.Enum;
+using Domain.ValueObjects;
 using SharedKernel.Core;
 
 namespace Domain.Model.Proyectos
@@ -7,6 +8,8 @@ namespace Domain.Model.Proyectos
     {
         public DonacionValue Monto { get; private set; }
         public Guid UsuarioId { get; private set; }
+        public string Estado { get; private set; }
+
 
         internal Donacion(Guid usuarioId, decimal monto)
         {
@@ -18,6 +21,11 @@ namespace Domain.Model.Proyectos
             Id = Guid.NewGuid();
             UsuarioId = usuarioId;
             Monto = monto;
+            Estado = nameof(EstadoDonacion.Procesando);
+        }
+        public void CompletarDonacion()
+        {
+            Estado = nameof(EstadoDonacion.Completado);
         }
         private Donacion() { }
     }

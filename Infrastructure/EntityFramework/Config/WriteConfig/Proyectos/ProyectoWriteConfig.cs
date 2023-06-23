@@ -15,6 +15,8 @@ namespace Infrastructure.EntityFramework.Config.WriteConfig.Proyectos
 
             builder.Property(x => x.FechaCreacion).HasColumnName("fechaCreacion");
 
+            builder.Property(x => x.Estado).HasColumnName("estado");
+
             builder.Property(x => x.CreadorId).HasColumnName("creadorId");
 
             builder.Property(x => x.TipoProyectoId).HasColumnName("tipoProyectoId");

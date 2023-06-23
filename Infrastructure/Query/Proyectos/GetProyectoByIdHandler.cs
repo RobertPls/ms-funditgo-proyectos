@@ -39,6 +39,7 @@ namespace Infrastructure.Query.Proyectos
             {
                 Id = proyecto.Id,
                 FechaCreacion = proyecto.FechaCreacion,
+                Estado = proyecto.Estado,
                 Titulo = proyecto.Titulo,
                 Descripcion = proyecto.Descripcion,
                 DonacionEsperada = proyecto.DonacionEsperada,
@@ -69,6 +70,7 @@ namespace Infrastructure.Query.Proyectos
                     Id = c.Id,
                     Monto = c.Monto,
                     Usuario = new UsuarioDto { Id = c.Usuario.Id, NombreCompleto = c.Usuario.NombreCompleto },
+                    Estado = c.Estado,
                 }).ToList()
             };
         }

@@ -15,6 +15,9 @@ namespace Infrastructure.EntityFramework.Config.ReadConfig.Proyectos
             builder.Property(x => x.FechaCreacion)
                 .HasColumnName("fechaCreacion");
 
+            builder.Property(x => x.Estado)
+                .HasColumnName("estado");
+
             builder.Property(x => x.Titulo)
                 .HasColumnName("titulo");
 

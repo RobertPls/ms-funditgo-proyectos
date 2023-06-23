@@ -11,5 +11,7 @@ namespace Infrastructure.EntityFramework.ReadModel.Proyectos
         public Guid UsuarioId { get; set; }
         public ProyectoReadModel Proyecto { get; set; }
         public Guid ProyectoId { get; set; }
+
+        public string Estado { get; set; }
     }
 }

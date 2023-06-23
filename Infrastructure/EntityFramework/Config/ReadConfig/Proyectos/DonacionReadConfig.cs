@@ -12,6 +12,9 @@ namespace Infrastructure.EntityFramework.Config.ReadConfig.Proyectos
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("id");
 
+            builder.Property(x => x.Estado)
+                .HasColumnName("estado");
+
             builder.Property(x => x.Monto)
                 .HasColumnName("monto").HasPrecision(14, 2);
 
