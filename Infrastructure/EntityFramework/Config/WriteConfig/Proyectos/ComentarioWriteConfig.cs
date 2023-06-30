@@ -10,16 +10,15 @@ namespace Infrastructure.EntityFramework.Config.WriteConfig.Proyectos
     {
         public void Configure(EntityTypeBuilder<Comentario> builder)
         {
-            builder.ToTable("Comentario");
-            builder.HasKey(x => x.Id);
-
-            builder.Property(x => x.UsuarioId)
-                .HasColumnName("usuarioId");
 
             var comentarioConverter = new ValueConverter<ComentarioValue, string>(
-            comentarioValue=> comentarioValue.Comentario,
+            comentarioValue => comentarioValue.Comentario,
             stringValue => new ComentarioValue(stringValue)
             );
+
+            builder.ToTable("Comentario");
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.UsuarioId).HasColumnName("usuarioId");
             builder.Property(x => x.Texto).HasColumnName("texto").HasConversion(comentarioConverter);
 
             builder.Ignore("_domainEvents");

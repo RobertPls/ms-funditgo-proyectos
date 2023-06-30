@@ -29,7 +29,17 @@ namespace Application.UseCase.Command.Proyectos.CrearProyecto
                 throw new Exception("Usuario no encontrado");
             }
 
-            var proyecto = _proyectoFactory.Crear(request.CreadorId, request.TipoproyectoId, request.Titulo, request.Descripcion,request.DonacionEsperada);
+            var proyecto = _proyectoFactory.Crear(
+                request.CreadorId, 
+                request.TipoproyectoId, 
+                request.Titulo, 
+                request.Descripcion, 
+                request.Historia, 
+                request.CompromisoAmbiental,
+                request.DonacionEsperada, 
+                request.DonacionMinima
+                );
+
             await _proyectoRepository.CreateAsync(proyecto);
             await _unitOfWork.Commit();
             return proyecto.Id;

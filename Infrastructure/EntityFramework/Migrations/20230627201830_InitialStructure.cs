@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.EntityFramework.Migrations
 {
     /// <inheritdoc />
-    public partial class EstructuraInicial : Migration
+    public partial class InitialStructure : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,8 +46,11 @@ namespace Infrastructure.EntityFramework.Migrations
                     estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    historia = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    compromisoAmbiental = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     donacionEsperada = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
-                    donacionRecibida = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false)
+                    donacionRecibida = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
+                    donacionMinima = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -171,6 +174,31 @@ namespace Infrastructure.EntityFramework.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ProyectoFavorito",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    proyectoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    usuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProyectoFavorito", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_ProyectoFavorito_Proyecto_proyectoId",
+                        column: x => x.proyectoId,
+                        principalTable: "Proyecto",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProyectoFavorito_Usuario_usuarioId",
+                        column: x => x.usuarioId,
+                        principalTable: "Usuario",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Actualizacion_proyectoId",
                 table: "Actualizacion",
@@ -220,6 +248,16 @@ namespace Infrastructure.EntityFramework.Migrations
                 name: "IX_Proyecto_tipoProyectoId",
                 table: "Proyecto",
                 column: "tipoProyectoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProyectoFavorito_proyectoId",
+                table: "ProyectoFavorito",
+                column: "proyectoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProyectoFavorito_usuarioId",
+                table: "ProyectoFavorito",
+                column: "usuarioId");
         }
 
         /// <inheritdoc />
@@ -236,6 +274,9 @@ namespace Infrastructure.EntityFramework.Migrations
 
             migrationBuilder.DropTable(
                 name: "Donacion");
+
+            migrationBuilder.DropTable(
+                name: "ProyectoFavorito");
 
             migrationBuilder.DropTable(
                 name: "Proyecto");

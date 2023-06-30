@@ -11,6 +11,7 @@ namespace Application.UseCase.Command.Proyectos.EliminarColaborador
     {
         public Guid ProyectoId { get; set; }
         public Guid ComentarioId { get; set; }
+        public Guid UsuarioQueRealizaLaAccionId { get; set; }
 
     }
 }

@@ -13,8 +13,13 @@ namespace Application.UseCase.Command.Proyectos.CrearProyecto
 
         public string Descripcion { get; set; }
 
+        public string Historia { get; set; }
+        
+        public string CompromisoAmbiental { get; set; }
+
         public decimal DonacionEsperada { get; set; }
 
+        public decimal DonacionMinima { get; set; }
 
     }
 }

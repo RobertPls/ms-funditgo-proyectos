@@ -1,4 +1,5 @@
 ﻿using Application.Dto.TiposProyectos;
+using Application.Dto.Usuarios;
 
 namespace Application.Dto.Proyectos
 {
@@ -6,7 +7,7 @@ namespace Application.Dto.Proyectos
     {
         public Guid Id { get; set; }
 
-        public UsuarioDto Creador { get; set; }
+        public UsuarioSimpleDto Creador { get; set; }
 
         public TipoProyectoDto Tipo { get; set; }
 
@@ -18,9 +19,15 @@ namespace Application.Dto.Proyectos
 
         public string Descripcion { get; set; }
 
+        public string Historia { get; set; }
+        
+        public string CompromisoAmbiental { get; set; }
+
         public decimal DonacionEsperada { get; set; }
 
         public decimal DonacionRecibida { get; set; }
+
+        public decimal DonacionMinima { get; set; }
 
         public ICollection<ComentarioDto> Comentarios { get; set; }
         public ICollection<ColaboradorDto> Colaboradores { get; set; }

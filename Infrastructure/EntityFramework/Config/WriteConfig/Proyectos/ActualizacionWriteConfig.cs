@@ -10,19 +10,16 @@ namespace Infrastructure.EntityFramework.Config.WriteConfig.Proyectos
     {
         public void Configure(EntityTypeBuilder<Actualizacion> builder)
         {
-            builder.ToTable("Actualizacion");
-            builder.HasKey(x => x.Id);
-
-            builder.Property(x => x.Fecha)
-                .HasColumnName("fecha");
-
-            builder.Property(x => x.UsuarioId)
-                .HasColumnName("usuarioId");
 
             var descripcionConverter = new ValueConverter<DescripcionValue, string>(
                 descripcionValue => descripcionValue.Descripcion,
                 stringValue => new DescripcionValue(stringValue)
             );
+
+            builder.ToTable("Actualizacion");
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Fecha).HasColumnName("fecha");
+            builder.Property(x => x.UsuarioId).HasColumnName("usuarioId");
             builder.Property(x => x.Descripcion).HasColumnName("descripcion").HasConversion(descripcionConverter);
 
             builder.Ignore("_domainEvents");

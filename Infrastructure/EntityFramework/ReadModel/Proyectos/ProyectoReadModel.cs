@@ -22,12 +22,17 @@ namespace Infrastructure.EntityFramework.ReadModel.Proyectos
 
         public string Descripcion { get; set; }
 
+        public string Historia { get; set; }
+
+        public string CompromisoAmbiental { get; set; }
+
         public decimal DonacionEsperada { get; set; }
 
         public decimal DonacionRecibida { get; set; }
 
-        public ICollection<ColaboradorReadModel> Colaboradores { get; set; }
+        public decimal DonacionMinima { get; set; }
 
+        public ICollection<ColaboradorReadModel> Colaboradores { get; set; }
 
         public ICollection<ComentarioReadModel> Comentarios { get; set; }
 

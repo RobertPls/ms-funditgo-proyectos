@@ -10,19 +10,15 @@ namespace Infrastructure.EntityFramework.Config.WriteConfig.Proyectos
     {
         public void Configure(EntityTypeBuilder<Donacion> builder)
         {
-            builder.ToTable("Donacion");
-            builder.HasKey(x => x.Id);
-
-            builder.Property(x => x.UsuarioId)
-                .HasColumnName("usuarioId");
-
-            builder.Property(x => x.Estado)
-                .HasColumnName("estado");
-
             var donacionConverter = new ValueConverter<DonacionValue, decimal>(
                 donacionValue => donacionValue.Value,
                 decimalValue => new DonacionValue(decimalValue)
             );
+
+            builder.ToTable("Donacion");
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.UsuarioId).HasColumnName("usuarioId");
+            builder.Property(x => x.Estado).HasColumnName("estado");
             builder.Property(x => x.Monto).HasColumnName("monto").HasConversion(donacionConverter);
 
             builder.Ignore("_domainEvents");

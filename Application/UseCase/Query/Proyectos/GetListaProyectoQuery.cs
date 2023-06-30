@@ -1,15 +1,15 @@
 ﻿using Application.Dto.Proyectos;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.UseCase.Query.Proyectos
 {
-    public class GetListaProyectoQuery : IRequest<IEnumerable<ProyectoDto>>
+    public class GetListaProyectoQuery : IRequest<IEnumerable<ProyectoSimpleDto>>
     {
-        public string TituloSearchTerm { get; set; }
+        public string? TituloSearchTerm { get; set; }
+        public string? Estado { get; set; }
+        public string? FechaDesde { get; set; }
+        public string? FechaHasta{ get; set; }
+        public decimal? DonacionMinima { get; set; }
+
     }
 }

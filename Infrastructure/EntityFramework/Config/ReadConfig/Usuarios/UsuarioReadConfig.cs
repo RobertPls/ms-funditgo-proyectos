@@ -11,9 +11,9 @@ namespace Infrastructure.EntityFramework.Config.ReadConfig.Proyectos
             builder.ToTable("Usuario");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("id");
+            builder.Property(x => x.NombreCompleto).HasColumnName("nombreCompleto");
 
-            builder.Property(x => x.NombreCompleto)
-                .HasColumnName("nombreCompleto");
+            builder.HasMany(x => x.ProyectosFavoritos).WithOne(x => x.Usuario).HasForeignKey(x => x.UsuarioId);
         }
     }
 }

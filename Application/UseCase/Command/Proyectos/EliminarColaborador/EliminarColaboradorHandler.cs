@@ -25,20 +25,13 @@ namespace Application.UseCase.Command.Proyectos.AgregarColaborador
         public async Task<Guid> Handle(EliminarColaboradorCommand request, CancellationToken cancellationToken)
         {
             var proyecto = await _proyectoRepository.FindByIdAsync(request.ProyectoId);
-            
-            var colaborador = proyecto.Colaboradores.FirstOrDefault(x => x.Id == request.ColaboradorId);
 
             if (proyecto == null)
             {
                 throw new Exception("Proyecto no encontrado");
             }
 
-            if (colaborador == null)
-            {
-                throw new Exception("Colaborador no encontrado");
-            }
-
-            proyecto.EliminarColaborador(colaborador);
+            proyecto.EliminarColaborador(request.ColaboradorId);
 
             await _proyectoRepository.UpdateAsync(proyecto);
 

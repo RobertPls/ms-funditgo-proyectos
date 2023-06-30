@@ -13,7 +13,7 @@ namespace Domain.Model.TiposProyectos
         public Guid Id { get; private set; }
         public string Nombre { get; private set; }
 
-        internal TipoProyecto(Guid id, string nombre)
+        public TipoProyecto(Guid id, string nombre)
         {
             if (id == Guid.Empty)
             {

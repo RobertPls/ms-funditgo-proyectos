@@ -10,13 +10,14 @@ namespace Infrastructure.EntityFramework.Config.WriteConfig.Usuarios
     {
         public void Configure(EntityTypeBuilder<Usuario> builder)
         {
-            builder.ToTable("Usuario");
-            builder.HasKey(x => x.Id);
 
             var nombrePersonaConverter = new ValueConverter<NombrePersonaValue, string>(
-                nombrePersonaValue=> nombrePersonaValue.Nombre,
+                nombrePersonaValue => nombrePersonaValue.Nombre,
                 stringValue => new NombrePersonaValue(stringValue)
             );
+
+            builder.ToTable("Usuario");
+            builder.HasKey(x => x.Id);
             builder.Property(x => x.NombreCompleto).HasColumnName("nombreCompleto").HasConversion(nombrePersonaConverter);
 
             builder.Ignore(x => x.DomainEvents);

@@ -1,7 +1,9 @@
 ﻿using Infrastructure.EntityFramework.Config.ReadConfig.Proyectos;
 using Infrastructure.EntityFramework.Config.ReadConfig.TiposProyectos;
+using Infrastructure.EntityFramework.Config.ReadConfig.Usuarios;
 using Infrastructure.EntityFramework.ReadModel.Proyectos;
 using Infrastructure.EntityFramework.ReadModel.TiposProyectos;
+using Infrastructure.EntityFramework.ReadModel.Usuarios;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.EntityFramework.Context
@@ -15,9 +17,7 @@ namespace Infrastructure.EntityFramework.Context
         public virtual DbSet<ActualizacionReadModel> Actualizacion { get; set; }
         public virtual DbSet<DonacionReadModel> Donacion { get; set; }
         public virtual DbSet<TipoProyectoReadModel> TipoProyecto { get; set; }
-
-
-
+        public virtual DbSet<ProyectoFavoritoReadModel> ProyectoFavorito { get; set; }
 
         public ReadDbContext(DbContextOptions<ReadDbContext> options) : base(options)
         {
@@ -34,7 +34,7 @@ namespace Infrastructure.EntityFramework.Context
             modelBuilder.ApplyConfiguration(new ActualizacionReadConfig());
             modelBuilder.ApplyConfiguration(new DonacionReadConfig());
             modelBuilder.ApplyConfiguration(new TipoProyectoReadConfig());
-
+            modelBuilder.ApplyConfiguration(new ProyectoFavoritoReadConfig());
 
         }
     }

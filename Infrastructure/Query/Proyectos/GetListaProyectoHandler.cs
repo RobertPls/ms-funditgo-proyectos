@@ -1,68 +1,81 @@
 ﻿using Application.Dto.Proyectos;
-using Application.Dto.TiposProyectos;
 using Application.UseCase.Query.Proyectos;
 using Infrastructure.EntityFramework.Context;
 using Infrastructure.EntityFramework.ReadModel.Proyectos;
+using Infrastructure.Query.Proyectos.Mapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Query.Proyectos
 {
-    internal class GetListaProyectoHandler : IRequestHandler<GetListaProyectoQuery, IEnumerable<ProyectoDto>>
+    internal class GetListaProyectoHandler : IRequestHandler<GetListaProyectoQuery, IEnumerable<ProyectoSimpleDto>>
     {
-        private readonly DbSet<ProyectoReadModel> proyecto;
+        private readonly DbSet<ProyectoReadModel> proyectos;
         public GetListaProyectoHandler(ReadDbContext dbContext)
         {
-            proyecto = dbContext.Proyecto;
+            proyectos = dbContext.Proyecto;
         }
-        public async Task<IEnumerable<ProyectoDto>> Handle(GetListaProyectoQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ProyectoSimpleDto>> Handle(GetListaProyectoQuery request, CancellationToken cancellationToken)
         {
-            var query = proyecto.AsNoTracking().AsQueryable();
+            var query = proyectos
+                .Include(p => p.Donaciones)
+                .AsNoTracking()
+                .AsQueryable();
 
-            if (!string.IsNullOrEmpty(request.TituloSearchTerm))
-            {
-                query = query.Where(x => x.Titulo.ToLower().Contains(request.TituloSearchTerm.ToLower()));
-            }
-            var lista = await query.Select(x => new ProyectoDto
-            {
-                Id = x.Id,
-                FechaCreacion = x.FechaCreacion,
-                Estado = x.Estado,
-                Titulo = x.Titulo,
-                Descripcion = x.Descripcion,
-                DonacionEsperada = x.DonacionEsperada,
-                DonacionRecibida = x.DonacionRecibida,
-                Creador = new UsuarioDto { Id = x.Creador.Id, NombreCompleto=x.Creador.NombreCompleto},
-                Tipo = new TipoProyectoDto { Id = x.TipoProyecto.Id, Nombre= x.TipoProyecto.Nombre},
-                Comentarios = x.Comentarios.Select(c => new ComentarioDto
-                {
-                    Id = c.Id,
-                    Texto= c.Texto,
-                    Usuario = new UsuarioDto { Id = c.Usuario.Id, NombreCompleto = c.Usuario.NombreCompleto },
+            query = FiltrarPorFecha(query, request.FechaDesde, request.FechaHasta);
+            query = FiltrarPorEstado(query, request.Estado);
+            query = FiltrarPorTitulo(query, request.TituloSearchTerm);
+            query = FiltrarPorDonacionMinima(query, request.DonacionMinima);
 
-                }).ToList(),
-                Colaboradores = x.Colaboradores.Select(c => new ColaboradorDto
-                {
-                    Id = c.Id,
-                    Usuario = new UsuarioDto { Id = c.Usuario.Id, NombreCompleto = c.Usuario.NombreCompleto },
-                }).ToList(),
-                Actualizaciones = x.Actualizaciones.Select(c => new ActualizacionDto
-                {
-                    Id = c.Id,
-                    Fecha = c.Fecha,
-                    Descripcion = c.Descripcion,
-                    Usuario = new UsuarioDto { Id = c.Usuario.Id, NombreCompleto = c.Usuario.NombreCompleto },
 
-                }).ToList(),
-                Donaciones = x.Donaciones.Select(c => new DonacionDto
-                {
-                    Id = c.Id,
-                    Monto = c.Monto,
-                    Usuario = new UsuarioDto { Id = c.Usuario.Id, NombreCompleto = c.Usuario.NombreCompleto },
-                    Estado = c.Estado
-                }).ToList(),
-            }).ToListAsync();
+            var lista = await query.Select(proyecto => ProyectoMapper.MapToProyectoSimpleDto(proyecto)).ToListAsync();
+
             return lista;
         }
+
+        private IQueryable<ProyectoReadModel> FiltrarPorFecha(IQueryable<ProyectoReadModel> query, string? fechaDesde, string? fechaHasta)
+        {
+            if (DateTime.TryParse(fechaDesde, out var fechaDesdeValue))
+            {
+                query = query.Where(x => x.FechaCreacion.Date >= fechaDesdeValue.Date);
+            }
+
+            if (DateTime.TryParse(fechaHasta, out var fechaHastaValue))
+            {
+                query = query.Where(x => x.FechaCreacion.Date <= fechaHastaValue.Date);
+            }
+
+            return query;
+        }
+
+        private IQueryable<ProyectoReadModel> FiltrarPorTitulo(IQueryable<ProyectoReadModel> query, string? tituloSearchTerm)
+        {
+            if (!string.IsNullOrEmpty(tituloSearchTerm))
+            {
+                query = query.Where(x => x.Titulo.ToLower().Contains(tituloSearchTerm.ToLower()));
+            }
+
+            return query;
+        }
+
+        private IQueryable<ProyectoReadModel> FiltrarPorDonacionMinima(IQueryable<ProyectoReadModel> query, decimal? donacionMinima)
+        {
+            if (donacionMinima.HasValue)
+            {
+                query = query.Where(x => x.DonacionMinima <= donacionMinima.Value);
+            }
+
+            return query;
+        }
+        private IQueryable<ProyectoReadModel> FiltrarPorEstado(IQueryable<ProyectoReadModel> query, string? estado)
+        {
+            if (!string.IsNullOrEmpty(estado))
+            {
+                query = query.Where(x => x.Estado.ToLower().Contains(estado.ToLower()));
+            }
+
+            return query;
+        }
+
     }
 }

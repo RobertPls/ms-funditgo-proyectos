@@ -16,22 +16,12 @@ namespace Infrastructure.EntityFramework.Config.ReadConfig.Proyectos
             builder.ToTable("Actualizacion");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("id");
+            builder.Property(x => x.Fecha).HasColumnName("fecha");
+            builder.Property(x => x.Descripcion).HasColumnName("Descripcion");
+            builder.Property(x => x.ProyectoId).HasColumnName("proyectoId");
 
-            builder.Property(x => x.Fecha)
-                .HasColumnName("fecha");
-
-            builder.Property(x => x.Descripcion)
-                .HasColumnName("Descripcion");
-
-            builder.Property(x => x.UsuarioId)
-                .HasColumnName("usuarioId");
-
-            builder.HasOne(x => x.Usuario)
-                .WithMany()
-                .HasForeignKey(x => x.UsuarioId);
-
-            builder.Property(x => x.ProyectoId)
-               .HasColumnName("proyectoId");
+            builder.Property(x => x.UsuarioId).HasColumnName("usuarioId");
+            builder.HasOne(x => x.Usuario).WithMany().HasForeignKey(x => x.UsuarioId);
         }
     }
 }

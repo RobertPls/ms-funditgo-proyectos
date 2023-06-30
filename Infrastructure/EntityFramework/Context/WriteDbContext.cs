@@ -17,7 +17,7 @@ namespace Infrastructure.EntityFramework.Context
         public virtual DbSet<Actualizacion> Actualizacion { get; set; }
         public virtual DbSet<Donacion> Donacion { get; set; }
         public virtual DbSet<TipoProyecto> TipoProyecto { get; set; }
-
+        public virtual DbSet<ProyectoFavorito> ProyectoFavorito { get; set; }
 
 
         public WriteDbContext(DbContextOptions<WriteDbContext> options) : base(options)
@@ -35,7 +35,7 @@ namespace Infrastructure.EntityFramework.Context
             modelBuilder.ApplyConfiguration(new ActualizacionWriteConfig());
             modelBuilder.ApplyConfiguration(new DonacionWriteConfig());
             modelBuilder.ApplyConfiguration(new TipoProyectoWriteConfig());
-
+            modelBuilder.ApplyConfiguration(new ProyectoFavoritoWriteConfig());
         }
     }
 }

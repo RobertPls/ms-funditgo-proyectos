@@ -11,9 +11,7 @@ namespace Infrastructure.EntityFramework.Config.ReadConfig.TiposProyectos
             builder.ToTable("TipoProyecto");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("id");
-
-            builder.Property(x => x.Nombre)
-                .HasColumnName("nombre");
+            builder.Property(x => x.Nombre).HasColumnName("nombre");
         }
     }
 }

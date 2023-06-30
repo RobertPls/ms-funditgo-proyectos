@@ -10,9 +10,7 @@ namespace Infrastructure.EntityFramework.Config.WriteConfig.Proyectos
         {
             builder.ToTable("Colaborador");
             builder.HasKey(x => x.Id);
-
-            builder.Property(x => x.UsuarioId)
-              .HasColumnName("usuarioId");
+            builder.Property(x => x.UsuarioId).HasColumnName("usuarioId");
 
             builder.Ignore("_domainEvents");
             builder.Ignore(x => x.DomainEvents);

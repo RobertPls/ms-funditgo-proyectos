@@ -1,6 +1,7 @@
 ﻿using Domain.Event.Proyectos;
 using Domain.Model.Proyectos.Enum;
 using Domain.ValueObjects;
+using MediatR;
 using SharedKernel.Core;
 
 namespace Domain.Model.Proyectos
@@ -19,9 +20,16 @@ namespace Domain.Model.Proyectos
 
         public DescripcionValue Descripcion { get; private set; }
 
+        public DescripcionValue Historia { get; private set; }
+
+        public DescripcionValue CompromisoAmbiental { get; private set; }
+
         public DonacionValue DonacionEsperada { get; private set; }
 
         public PrecioValue DonacionRecibida { get; private set; }
+
+        public DonacionValue DonacionMinima { get; private set; }
+
 
         private readonly ICollection<Colaborador> _colaboradores;
         public IEnumerable<Colaborador> Colaboradores { get { return _colaboradores; } }
@@ -43,7 +51,7 @@ namespace Domain.Model.Proyectos
 
 
 
-        public Proyecto(Guid creadorId, Guid tipoProyectoId, string titulo, string descripcion, decimal donacionEsperada)
+        public Proyecto(Guid creadorId, Guid tipoProyectoId, string titulo, string descripcion, string historia, string compromisoAmbiental, decimal donacionEsperada, decimal donacionMinima)
         {
             if (creadorId == Guid.Empty)
             {
@@ -56,12 +64,14 @@ namespace Domain.Model.Proyectos
             TipoProyectoId = tipoProyectoId;
 
             DonacionEsperada = donacionEsperada;
+            DonacionMinima = donacionMinima;
+            DonacionRecibida = 0;
             Titulo = titulo;
             Descripcion = descripcion;
+            Historia = historia;
+            CompromisoAmbiental = historia;
 
             FechaCreacion = DateTime.Now;
-
-            DonacionRecibida = 0;
 
             Estado = nameof(EstadoProyecto.Borrador);
 
@@ -72,23 +82,39 @@ namespace Domain.Model.Proyectos
 
 
         }
+        //-------------------------------------------------------------------------------------------------------------------------------------
+
+        public void ActualizarProyecto(decimal donacionEsperada, string descripcion, string historia, string compromisoAmbiental, string titulo)
+        {
+
+            if (Estado != nameof(EstadoProyecto.Observacion))
+            {
+                throw new BussinessRuleValidationException("El proyecto no puede modificarse.");
+            }
+
+            DonacionEsperada = donacionEsperada;
+            Descripcion = descripcion;
+            Titulo = titulo;
+            Historia = historia;
+            CompromisoAmbiental = historia;
+        }
 
         //-------------------------------------------------------------------------------------------------------------------------------------
 
         public void EnviarARevision()
         {
-            if (Estado != nameof(EstadoProyecto.Borrador) || Estado != nameof(EstadoProyecto.Observacion))
+            if (Estado != nameof(EstadoProyecto.Borrador) && Estado != nameof(EstadoProyecto.Observacion))
             {
                 throw new BussinessRuleValidationException("El estado no puede volver a revision.");
             }
             Estado = nameof(EstadoProyecto.Revision);
         }
 
-        public void EnviarObservacion()
+        public void EnviarAObservacion()
         {
             if (Estado != nameof(EstadoProyecto.Revision))
             {
-                throw new BussinessRuleValidationException("El estado no puede volver a revision.");
+                throw new BussinessRuleValidationException("El proyecto necesita ser revisado por un administrador.");
             }
             Estado = nameof(EstadoProyecto.Observacion);
         }
@@ -97,7 +123,7 @@ namespace Domain.Model.Proyectos
         {
             if (Estado != nameof(EstadoProyecto.Revision))
             {
-                throw new BussinessRuleValidationException("El estado no puede aceptarse.");
+                throw new BussinessRuleValidationException("El proyecto no se puede aceptar.");
             }
             Estado = nameof(EstadoProyecto.Aceptado);
         }
@@ -106,7 +132,7 @@ namespace Domain.Model.Proyectos
         {
             if (Estado != nameof(EstadoProyecto.Revision))
             {
-                throw new BussinessRuleValidationException("El estado no puede rechazarse.");
+                throw new BussinessRuleValidationException("El proyecto no se puede rechazar.");
             }
             Estado = nameof(EstadoProyecto.Rechazado);
         }
@@ -116,6 +142,11 @@ namespace Domain.Model.Proyectos
 
         public void AgregarActualizacion(Guid usuarioId, string descripcion)
         {
+            if (Estado != nameof(EstadoProyecto.Aceptado))
+            {
+                throw new BussinessRuleValidationException("No se puede agregar actualizaciones a un proyecto sin aceptar.");
+            }
+
             var actualizacion = new Actualizacion(usuarioId, descripcion);
             _actualizaciones.Add(actualizacion);
             AddDomainEvent(new ActualizacionAgregada(actualizacion.Id));
@@ -125,6 +156,16 @@ namespace Domain.Model.Proyectos
 
         public void AgregarDonacion(Guid usuarioId, decimal monto)
         {
+            if (Estado != nameof(EstadoProyecto.Aceptado))
+            {
+                throw new BussinessRuleValidationException("No se puede agregar donaciones a un proyecto sin aceptar.");
+            }
+
+            if (monto < DonacionMinima)
+            {
+                throw new BussinessRuleValidationException($"La donación mínima requerida es de {DonacionMinima}");
+            }
+
             var donacion = new Donacion(usuarioId, monto);
             _donaciones.Add(donacion);
             AddDomainEvent(new DonacionCreada(donacion.Id));
@@ -134,73 +175,76 @@ namespace Domain.Model.Proyectos
         {
             var donacionExistente = _donaciones.Any(x => x.Id == donacionId);
 
-            if (donacionExistente)
-            {
-                var donacion = _donaciones.FirstOrDefault(x => x.Id == donacionId);
-                donacion.CompletarDonacion();
-                this.DonacionRecibida += donacion.Monto;
-            }
-            else
+            if (!donacionExistente)
             {
                 throw new BussinessRuleValidationException("No se encontro la donacion");
             }
+
+            var donacion = _donaciones.FirstOrDefault(x => x.Id == donacionId);
+            donacion.CompletarDonacion();
+            this.DonacionRecibida += donacion.Monto;
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------------
 
         public void AgregarComentario(Guid usuarioId, string texto)
         {
+            if (Estado != nameof(EstadoProyecto.Aceptado))
+            {
+                throw new BussinessRuleValidationException("No se puede agregar comentarios a un proyecto sin aceptar.");
+            }
+
             var comentario = new Comentario(usuarioId, texto);
             _comentarios.Add(comentario);
             AddDomainEvent(new ComentarioAgregado(comentario.Id));
         }
 
-        public void EliminarComentario(Comentario comentario)
+        public void EliminarComentario(Guid comentarioId)
         {
-            var comentarioExistente = _comentarios.Any(x => x.Id == comentario.Id);
+            var comentario = Comentarios.FirstOrDefault(x => x.Id == comentarioId);
 
-            if (comentarioExistente)
-            {
-                _comentarios.Remove(comentario);
-                AddDomainEvent(new ComentarioEliminado(comentario.Id));
-            }
-            else
+
+            if (comentario == null)
             {
                 throw new BussinessRuleValidationException("El comentario no existe en la lista de comentarios del proyecto");
             }
+
+            _comentarios.Remove(comentario);
+            AddDomainEvent(new ComentarioEliminado(comentario.Id));
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------------
 
         public void AgregarColaborador(Guid usuarioId)
         {
+            if (Estado != nameof(EstadoProyecto.Aceptado))
+            {
+                throw new BussinessRuleValidationException("No se puede agregar colaboradores a un proyecto sin aceptar.");
+            }
+
             var colaboradorExistente = _colaboradores.Any(x => x.UsuarioId == usuarioId);
-
-            if (!colaboradorExistente)
-            {
-                var colaborador = new Colaborador(usuarioId);
-                _colaboradores.Add(colaborador);
-                AddDomainEvent(new ColaboradorAgregado(usuarioId));
-            }
-            else
-            {
-                throw new BussinessRuleValidationException("Ya existe este colaborador en tu proyecto");
-            }
-        }
-
-        public void EliminarColaborador(Colaborador colaborador)
-        {
-            var colaboradorExistente = _colaboradores.Any(x => x.Id == colaborador.Id);
 
             if (colaboradorExistente)
             {
-                _colaboradores.Remove(colaborador);
-                AddDomainEvent(new ColaboradorEliminado(colaborador.Id));
+                throw new BussinessRuleValidationException("Ya existe este colaborador en tu proyecto");
             }
-            else
+
+            var colaborador = new Colaborador(usuarioId);
+            _colaboradores.Add(colaborador);
+            AddDomainEvent(new ColaboradorAgregado(usuarioId));
+        }
+
+        public void EliminarColaborador(Guid colaboradorId)
+        {
+            var colaborador = Colaboradores.FirstOrDefault(x => x.Id == colaboradorId);
+
+            if (colaborador == null)
             {
                 throw new BussinessRuleValidationException("El colaborador no existe en la lista de colaboradores del proyecto");
             }
+
+            _colaboradores.Remove(colaborador);
+            AddDomainEvent(new ColaboradorEliminado(colaborador.Id));
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------------
@@ -209,6 +253,26 @@ namespace Domain.Model.Proyectos
         public bool EsCreadorOColaborador(Guid usuarioId)
         {
             return (usuarioId == CreadorId || _colaboradores.Any(c => c.UsuarioId == usuarioId)) ? true : false;
+        }
+
+        public bool EsCreador(Guid usuarioId)
+        {
+            return (usuarioId == CreadorId) ? true : false;
+        }
+
+        public bool EsCreadorDelComentario(Guid usuarioId, Guid comentarioId)
+        {
+            var esCreadorDelComentario = false;
+            
+            var comentarioExistente = _comentarios.Any(x => x.Id == comentarioId);
+
+            if (comentarioExistente)
+            {
+                var comentario = _comentarios.FirstOrDefault(x => x.Id == comentarioId);
+                esCreadorDelComentario = (comentario!.UsuarioId == usuarioId) ? true : false;
+            }
+
+            return esCreadorDelComentario;
         }
 
         private Proyecto() { }

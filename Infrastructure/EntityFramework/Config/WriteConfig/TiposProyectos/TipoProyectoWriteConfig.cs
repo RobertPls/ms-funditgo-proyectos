@@ -12,7 +12,6 @@ namespace Infrastructure.EntityFramework.Config.WriteConfig.TiposProyectos
         {
             builder.ToTable("TipoProyecto");
             builder.HasKey(x => x.Id);
-
             builder.Property(x => x.Nombre).HasColumnName("nombre");
 
             builder.Ignore(x => x.DomainEvents);
