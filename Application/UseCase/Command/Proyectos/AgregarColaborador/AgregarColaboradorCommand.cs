@@ -6,7 +6,6 @@ namespace Application.UseCase.Command.Proyectos.AgregarColaborador
     {
         public Guid ProyectoId { get; set; }
         public Guid UsuarioId { get; set; }
-        public Guid UsuarioQueRealizaLaAccionId { get; set; }
 
     }
 }

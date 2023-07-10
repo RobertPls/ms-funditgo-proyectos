@@ -77,10 +77,11 @@ namespace Web.Controllers
 
         [Route("buscar")]
         [HttpGet]
-        public async Task<IActionResult> BuscarProyecto([FromQuery] string? titulo, string? estado, string? fechaDesde, string? fechaHasta, decimal? donacionMinima)
+        public async Task<IActionResult> BuscarProyecto([FromQuery] Guid? tipoProyectoId, string? titulo, string? estado, string? fechaDesde, string? fechaHasta, decimal? donacionMinima)
         {
             var query = new GetListaProyectoQuery
             {
+                TipoProyectoId = tipoProyectoId,
                 TituloSearchTerm = titulo,
                 Estado = estado,
                 FechaDesde = fechaDesde,
@@ -93,10 +94,11 @@ namespace Web.Controllers
 
         [Route("buscar/aceptado")]
         [HttpGet]
-        public async Task<IActionResult> BuscarProyectoAceptado([FromQuery] string? titulo, string? fechaDesde, string? fechaHasta, decimal? donacionMinima)
+        public async Task<IActionResult> BuscarProyectoAceptado([FromQuery] Guid? tipoProyectoId, string? titulo, string? fechaDesde, string? fechaHasta, decimal? donacionMinima)
         {
             var query = new GetListaProyectoQuery
             {
+                TipoProyectoId = tipoProyectoId,
                 TituloSearchTerm = titulo,
                 Estado = "aceptado",
                 FechaDesde = fechaDesde,

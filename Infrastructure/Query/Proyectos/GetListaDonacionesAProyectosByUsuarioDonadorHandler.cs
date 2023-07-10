@@ -23,10 +23,11 @@ namespace Infrastructure.Query.Proyectos
         }
         public async Task<IEnumerable<ProyectoSimpleConDonacionTotalSegunUsuarioDto>> Handle(GetListaDonacionesAProyectosByUsuarioDonadorQuery request, CancellationToken cancellationToken)
         {
-            var estadoCompletado = nameof(EstadoDonacion.Completado);
-
             var query = proyectos.AsNoTracking()
-                .Include(p => p.Donaciones).AsQueryable();
+                .Include(p => p.TipoProyecto)
+                .Include(p => p.Donaciones)
+                .Where(x => x.Donaciones.Any(c => c.UsuarioId == request.UsuarioId))
+                .AsQueryable();
 
             var lista = await query.Select(proyecto => ProyectoMapper.MapToProyectoSimpleConDonacionTotalSegunUsuarioDto(proyecto, request.UsuarioId)).ToListAsync();
 

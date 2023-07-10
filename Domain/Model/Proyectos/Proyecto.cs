@@ -183,6 +183,7 @@ namespace Domain.Model.Proyectos
             var donacion = _donaciones.FirstOrDefault(x => x.Id == donacionId);
             donacion.CompletarDonacion();
             this.DonacionRecibida += donacion.Monto;
+            AddDomainEvent(new DonacionCompletada(donacion.Id));
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------------

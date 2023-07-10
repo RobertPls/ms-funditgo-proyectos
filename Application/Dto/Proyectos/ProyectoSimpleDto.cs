@@ -6,7 +6,9 @@ namespace Application.Dto.Proyectos
     {
         public Guid Id { get; set; }
         public DateTime FechaCreacion { get; set; }
-        
+
+        public string TipoProyecto { get; set; }
+
         public string Descripcion { get; set; }
 
         public string Titulo { get; set; }

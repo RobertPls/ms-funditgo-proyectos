@@ -1,4 +1,5 @@
 ﻿using Domain.Factory.Proyectos;
+using Domain.Factory.TiposProyectos;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -11,6 +12,7 @@ namespace Application
             services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
             services.AddScoped<IProyectoFactory, ProyectoFactory>();
             services.AddScoped<IUsuarioFactory, UsuarioFactory>();
+            services.AddScoped<ITipoProyectoFactory, TipoProyectoFactory>();
             return services;
         }
     }

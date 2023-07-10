@@ -33,6 +33,15 @@ namespace Infrastructure.EntityFramework
                 await _mediator.Publish(domainEvent);
             }
             await _context.SaveChangesAsync();
+
+            foreach (var @event in domainEvents)
+            {
+                Type type = typeof(ConfirmedDomainEvent<>).MakeGenericType(@event.GetType());
+
+                var confirmedEvent = (INotification)Activator.CreateInstance(type, @event);
+
+                await _mediator.Publish(confirmedEvent);
+            }
         }
     }
 }

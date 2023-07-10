@@ -2,12 +2,12 @@
 
 namespace Domain.Event.Proyectos
 {
-    public record DonacionCreada : DomainEvent
+    public record DonacionCompletada : DomainEvent
     {
         public Guid DonacionId { get; private set; }
 
 
-        public DonacionCreada(Guid donacionId) : base(DateTime.Now)
+        public DonacionCompletada(Guid donacionId) : base(DateTime.Now)
         {
             DonacionId = donacionId;
         }

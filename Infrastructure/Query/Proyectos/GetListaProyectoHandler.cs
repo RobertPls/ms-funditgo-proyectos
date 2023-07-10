@@ -5,6 +5,7 @@ using Infrastructure.EntityFramework.ReadModel.Proyectos;
 using Infrastructure.Query.Proyectos.Mapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Core;
 
 namespace Infrastructure.Query.Proyectos
 {
@@ -18,19 +19,30 @@ namespace Infrastructure.Query.Proyectos
         public async Task<IEnumerable<ProyectoSimpleDto>> Handle(GetListaProyectoQuery request, CancellationToken cancellationToken)
         {
             var query = proyectos
+                .Include(p => p.TipoProyecto)
                 .Include(p => p.Donaciones)
                 .AsNoTracking()
                 .AsQueryable();
 
+            query = FiltrarPorTipoProyecto(query, request.TipoProyectoId);
             query = FiltrarPorFecha(query, request.FechaDesde, request.FechaHasta);
             query = FiltrarPorEstado(query, request.Estado);
             query = FiltrarPorTitulo(query, request.TituloSearchTerm);
             query = FiltrarPorDonacionMinima(query, request.DonacionMinima);
 
-
             var lista = await query.Select(proyecto => ProyectoMapper.MapToProyectoSimpleDto(proyecto)).ToListAsync();
 
             return lista;
+        }
+
+        private IQueryable<ProyectoReadModel> FiltrarPorTipoProyecto(IQueryable<ProyectoReadModel> query, Guid? tipoProyectoId)
+        {
+            if (tipoProyectoId != Guid.Empty && !string.IsNullOrEmpty(tipoProyectoId.ToString()))
+            {
+                query = query.Where(x => x.TipoProyectoId == tipoProyectoId);
+            }
+
+            return query;
         }
 
         private IQueryable<ProyectoReadModel> FiltrarPorFecha(IQueryable<ProyectoReadModel> query, string? fechaDesde, string? fechaHasta)

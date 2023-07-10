@@ -29,6 +29,10 @@ namespace Application.Dto.Proyectos
 
         public decimal DonacionMinima { get; set; }
 
+        public int PorcentajeDonaciones { get; set; }
+
+        public int CantidadDonaciones { get; set; }
+
         public ICollection<ComentarioDto> Comentarios { get; set; }
         public ICollection<ColaboradorDto> Colaboradores { get; set; }
         public ICollection<DonacionDto> Donaciones { get; set; }

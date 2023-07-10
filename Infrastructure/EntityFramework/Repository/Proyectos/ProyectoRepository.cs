@@ -51,6 +51,12 @@ namespace Infrastructure.EntityFramework.Repository.Proyectos
                     var donacion = obj.Donaciones.FirstOrDefault(c => c.Id == evento.DonacionId);
                     await _context.Donacion.AddAsync(donacion);
                 }
+                if (e is DonacionCompletada)
+                {
+                    var evento = (DonacionCompletada)e;
+                    var donacion = obj.Donaciones.FirstOrDefault(c => c.Id == evento.DonacionId);
+                    _context.Donacion.Update(donacion);
+                }
                 if (e is ColaboradorAgregado)
                 {
                     var evento = (ColaboradorAgregado)e;

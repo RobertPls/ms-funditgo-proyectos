@@ -20,9 +20,14 @@ namespace Infrastructure.Query.Usuarios
         public async Task<UsuarioDto> Handle(GetUsuarioByIdQuery request, CancellationToken cancellationToken)
         {
             var usuario = await usuarios.AsNoTracking()
-                .Include(p => p.ProyectosFavoritos)
-                    .ThenInclude(c => c.Proyecto).ThenInclude(d=>d.Donaciones)
+                .Include(u => u.ProyectosFavoritos)
+                    .ThenInclude(pf => pf.Proyecto)
+                        .ThenInclude(p => p.Donaciones)
+                .Include(u => u.ProyectosFavoritos)
+                    .ThenInclude(pf => pf.Proyecto)
+                        .ThenInclude(p => p.TipoProyecto)
                 .FirstOrDefaultAsync(x => x.Id == request.UsuarioId);
+
 
             if (usuario == null)
             {
