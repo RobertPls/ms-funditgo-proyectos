@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using Domain.Event.Proyectos;
+using MassTransit;
 using MediatR;
 using SharedKernel.Core;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.UseCase.DomainEventHandler.Proyectos
 {
-    public class PublishingIntegrationEventWhenProyectoCreadoHandler : INotificationHandler<ConfirmedDomainEvent<Domain.Event.Proyectos.ProyectoCreado>>
+    public class PublishingIntegrationEventWhenProyectoCreadoHandler : INotificationHandler<ConfirmedDomainEvent<ProyectoCreado>>
     {
         private readonly IPublishEndpoint _publishEndpoint;
 
@@ -18,7 +19,7 @@ namespace Application.UseCase.DomainEventHandler.Proyectos
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task Handle(ConfirmedDomainEvent<Domain.Event.Proyectos.ProyectoCreado> notification, CancellationToken cancellationToken)
+        public async Task Handle(ConfirmedDomainEvent<ProyectoCreado> notification, CancellationToken cancellationToken)
         {
             Shared.IntegrationEvents.ProyectoCreado evento = new Shared.IntegrationEvents.ProyectoCreado()
             {

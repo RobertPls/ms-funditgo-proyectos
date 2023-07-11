@@ -96,7 +96,7 @@ namespace Domain.Model.Proyectos
             Descripcion = descripcion;
             Titulo = titulo;
             Historia = historia;
-            CompromisoAmbiental = historia;
+            CompromisoAmbiental = compromisoAmbiental;
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------------
@@ -168,7 +168,7 @@ namespace Domain.Model.Proyectos
 
             var donacion = new Donacion(usuarioId, monto);
             _donaciones.Add(donacion);
-            AddDomainEvent(new DonacionCreada(donacion.Id));
+            AddDomainEvent(new DonacionCreada(donacion.Id, this.Id));
         }
 
         public void CompletarDonacion(Guid donacionId)

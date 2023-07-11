@@ -1,10 +1,11 @@
-﻿using MassTransit;
+﻿using Domain.Event.Proyectos;
+using MassTransit;
 using MediatR;
 using SharedKernel.Core;
 
 namespace Application.UseCase.DomainEventHandler.Proyectos
 {
-    public class PublishingIntegrationEventWhenDonacionCreadaHandler : INotificationHandler<ConfirmedDomainEvent<Domain.Event.Proyectos.DonacionCreada>>
+    public class PublishingIntegrationEventWhenDonacionCreadaHandler : INotificationHandler<ConfirmedDomainEvent<DonacionCreada>>
     {
         private readonly IPublishEndpoint _publishEndpoint;
 
@@ -13,11 +14,12 @@ namespace Application.UseCase.DomainEventHandler.Proyectos
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task Handle(ConfirmedDomainEvent<Domain.Event.Proyectos.DonacionCreada> notification, CancellationToken cancellationToken)
+        public async Task Handle(ConfirmedDomainEvent<DonacionCreada> notification, CancellationToken cancellationToken)
         {
             Shared.IntegrationEvents.DonacionCreada evento = new Shared.IntegrationEvents.DonacionCreada()
             {
                 DonacionId = notification.DomainEvent.DonacionId,
+                ProyectoId = notification.DomainEvent.ProyectoId
             };
             await _publishEndpoint.Publish<Shared.IntegrationEvents.DonacionCreada>(evento);
 

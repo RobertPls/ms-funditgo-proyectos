@@ -1,5 +1,4 @@
-﻿using Application.UseCase.Command.Proyectos.CompletarDonacion;
-using Application.UseCase.Command.Proyectos.EnviarProyectoARevision;
+﻿using Application.UseCase.Command.Proyectos.EnviarProyectoARevision;
 using MassTransit;
 using MediatR;
 using Shared.IntegrationEvents;
