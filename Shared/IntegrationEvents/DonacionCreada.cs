@@ -6,6 +6,7 @@ namespace Shared.IntegrationEvents
     {
         public Guid DonacionId { get; set; }
         public Guid ProyectoId { get; set; }
+        public decimal Monto { get; set; }
 
     }
 }

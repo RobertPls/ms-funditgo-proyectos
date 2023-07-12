@@ -168,7 +168,7 @@ namespace Domain.Model.Proyectos
 
             var donacion = new Donacion(usuarioId, monto);
             _donaciones.Add(donacion);
-            AddDomainEvent(new DonacionCreada(donacion.Id, this.Id));
+            AddDomainEvent(new DonacionCreada(donacion.Id, this.Id, donacion.Monto));
         }
 
         public void CompletarDonacion(Guid donacionId)

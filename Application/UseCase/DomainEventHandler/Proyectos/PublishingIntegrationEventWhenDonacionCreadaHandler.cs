@@ -19,7 +19,8 @@ namespace Application.UseCase.DomainEventHandler.Proyectos
             Shared.IntegrationEvents.DonacionCreada evento = new Shared.IntegrationEvents.DonacionCreada()
             {
                 DonacionId = notification.DomainEvent.DonacionId,
-                ProyectoId = notification.DomainEvent.ProyectoId
+                ProyectoId = notification.DomainEvent.ProyectoId,
+                Monto = notification.DomainEvent.Monto
             };
             await _publishEndpoint.Publish<Shared.IntegrationEvents.DonacionCreada>(evento);
 
