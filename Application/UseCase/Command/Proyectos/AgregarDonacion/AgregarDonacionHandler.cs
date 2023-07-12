@@ -25,12 +25,12 @@ namespace Application.UseCase.Command.Proyectos.AgregarDonacion
 
             if (proyecto == null)
             {
-                throw new Exception("Proyecto no encontrado");
+                throw new BussinessRuleValidationException("Proyecto no encontrado");
             }
 
             if (usuario == null)
             {
-                throw new Exception("Usuario no encontrado");
+                throw new BussinessRuleValidationException("Usuario no encontrado");
             }
 
             proyecto.AgregarDonacion(request.UsuarioId, request.Monto);

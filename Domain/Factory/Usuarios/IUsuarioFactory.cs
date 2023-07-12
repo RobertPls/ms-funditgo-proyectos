@@ -5,6 +5,6 @@ namespace Domain.Factory.Proyectos
 {
     public interface IUsuarioFactory
     {
-        Usuario Crear(Guid id, string nombreCompleto);
+        Usuario Crear(Guid id, string nombreCompleto, string userName);
     }
 }

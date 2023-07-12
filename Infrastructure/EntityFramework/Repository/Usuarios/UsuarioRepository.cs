@@ -20,6 +20,13 @@ namespace Infrastructure.EntityFramework.Repository.Usuarios
             await _context.AddAsync(obj);
         }
 
+        public async Task<Usuario?> FindByUserNameAsync(string userName)
+        {
+            return await _context.Usuario
+                .Include(p => p.ProyectosFavoritos)
+                .FirstOrDefaultAsync(x => x.UserName == userName);
+        }
+
         public async Task<Usuario?> FindByIdAsync(Guid id)
         {
             return await _context.Usuario

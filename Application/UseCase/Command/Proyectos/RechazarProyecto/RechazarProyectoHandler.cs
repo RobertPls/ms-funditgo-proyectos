@@ -20,7 +20,7 @@ namespace Application.UseCase.Command.Proyectos.RechazarProyecto
 
             if (proyecto == null)
             {
-                throw new Exception("Proyecto no encontrado");
+                throw new BussinessRuleValidationException("Proyecto no encontrado");
             }
             proyecto.RechazarProyecto();
 

@@ -7,15 +7,17 @@ namespace Domain.Model.Usuarios
     public class Usuario : AggregateRoot<Guid>
     {
         public NombrePersonaValue NombreCompleto { get; private set; }
+        public string UserName{ get; private set; }
 
         private readonly ICollection<ProyectoFavorito> _proyectosFavoritos;
         public IEnumerable<ProyectoFavorito> ProyectosFavoritos { get { return _proyectosFavoritos; } }
         private Usuario() { }
 
-        internal Usuario(Guid id, string nombreCompleto)
+        internal Usuario(Guid id, string nombreCompleto, string userName)
         {
             Id = id;
             NombreCompleto = nombreCompleto;
+            UserName = userName;
             _proyectosFavoritos = new List<ProyectoFavorito>();
         }
 

@@ -27,17 +27,17 @@ namespace Application.UseCase.Command.Usuarios.AgregarProyectoFavorito
 
             if(esCreadorOColaborador)
             {
-                throw new Exception("Formas parte de este proyecto");
+                throw new BussinessRuleValidationException("Formas parte de este proyecto");
             }
 
             if (proyecto == null)
             {
-                throw new Exception("Proyecto no encontrado");
+                throw new BussinessRuleValidationException("Proyecto no encontrado");
             }
 
             if (usuario == null)
             {
-                throw new Exception("Usuario no encontrado");
+                throw new BussinessRuleValidationException("Usuario no encontrado");
             }
 
             usuario.AgregarFavorito(request.ProyectoId);

@@ -222,6 +222,11 @@ namespace Infrastructure.EntityFramework.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("nombreCompleto");
 
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("userName");
+
                     b.HasKey("Id");
 
                     b.ToTable("Usuario", (string)null);

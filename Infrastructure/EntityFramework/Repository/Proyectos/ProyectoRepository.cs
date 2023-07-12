@@ -31,6 +31,11 @@ namespace Infrastructure.EntityFramework.Repository.Proyectos
 
         public Task RemoveAsync(Proyecto obj)
         {
+            _context.Colaborador.RemoveRange(obj.Colaboradores);
+            _context.Comentario.RemoveRange(obj.Comentarios);
+            _context.Actualizacion.RemoveRange(obj.Actualizaciones);
+            _context.Donacion.RemoveRange(obj.Donaciones);
+
             _context.Proyecto.Remove(obj);
             return Task.CompletedTask;
         }

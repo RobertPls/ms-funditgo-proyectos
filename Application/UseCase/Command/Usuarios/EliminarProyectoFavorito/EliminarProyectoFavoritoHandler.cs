@@ -30,12 +30,12 @@ namespace Application.UseCase.Command.Usuarios.EliminarProyectoFavorito
 
             if (usuario == null)
             {
-                throw new Exception("Usuario no encontrado");
+                throw new BussinessRuleValidationException("Usuario no encontrado");
             }
 
             if (proyectoFavorito == null)
             {
-                throw new Exception("Proyecto favorito no encontrado");
+                throw new BussinessRuleValidationException("Proyecto favorito no encontrado");
             }
 
             usuario.EliminarFavorito(proyectoFavorito);

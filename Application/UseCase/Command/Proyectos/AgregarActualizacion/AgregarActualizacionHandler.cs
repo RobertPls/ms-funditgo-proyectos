@@ -27,19 +27,24 @@ namespace Application.UseCase.Command.Proyectos.AgregarActualizacion
         public async Task<Guid> Handle(AgregarActualizacionCommand request, CancellationToken cancellationToken)
         {
             var proyecto = await _proyectoRepository.FindByIdAsync(request.ProyectoId);
-            var usuario = await _usuarioRepository.FindByIdAsync(request.UsuarioId);
+            var usuario = await _usuarioRepository.FindByIdAsync(request.EjecutorId);
 
             if (proyecto == null)
             {
-                throw new Exception("Proyecto no encontrado");
+                throw new BussinessRuleValidationException("Proyecto no encontrado");
             }
 
             if (usuario == null)
             {
-                throw new Exception("Usuario no encontrado");
+                throw new BussinessRuleValidationException("Usuario no encontrado");
             }
 
-            proyecto.AgregarActualizacion(request.UsuarioId, request.Descripcion);
+            if(!proyecto.EsCreadorOColaborador(usuario.Id))
+            {
+                throw new BussinessRuleValidationException("No eres administrador de este proyecto");
+            }
+
+            proyecto.AgregarActualizacion(request.EjecutorId, request.Descripcion);
 
             await _proyectoRepository.UpdateAsync(proyecto);
 

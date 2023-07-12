@@ -28,7 +28,7 @@ namespace Application.UseCase.Command.Proyectos.CompletarDonacion
 
             if (proyecto == null)
             {
-                throw new Exception("Proyecto no encontrado");
+                throw new BussinessRuleValidationException("Proyecto no encontrado");
             }
 
             proyecto.CompletarDonacion(request.DonacionId);

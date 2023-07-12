@@ -5,9 +5,9 @@ namespace Domain.Factory.Proyectos
 {
     public class UsuarioFactory : IUsuarioFactory
     {
-        public Usuario Crear(Guid id, string nombreCompleto)
+        public Usuario Crear(Guid id, string nombreCompleto, string userName)
         {
-            return new Usuario(id,nombreCompleto);
+            return new Usuario(id,nombreCompleto,userName);
         }
     }
 }

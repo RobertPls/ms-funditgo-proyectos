@@ -19,7 +19,7 @@ namespace Application.UseCase.Command.Usuarios.CrearUsuario
         }
         public async Task<Guid> Handle(CrearUsuarioCommand request, CancellationToken cancellationToken)
         {
-            var usuario = _usuarioFactory.Crear(request.Id, request.NombreCompleto);
+            var usuario = _usuarioFactory.Crear(request.Id, request.NombreCompleto, request.UserName);
             await _usuarioRepository.CreateAsync(usuario);
             await _unitOfWork.Commit();
             return usuario.Id;

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.EntityFramework.Migrations
 {
     [DbContext(typeof(ReadDbContext))]
-    [Migration("20230627201830_InitialStructure")]
+    [Migration("20230712081045_InitialStructure")]
     partial class InitialStructure
     {
         /// <inheritdoc />
@@ -224,6 +224,11 @@ namespace Infrastructure.EntityFramework.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("nombreCompleto");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("userName");
 
                     b.HasKey("Id");
 

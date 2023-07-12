@@ -7,11 +7,14 @@ namespace Application.UseCase.Command.Usuarios.CrearUsuario
         public Guid Id { get; set; }
 
         public string NombreCompleto { get; set; }
+        public string UserName { get; set; }
 
-        public CrearUsuarioCommand (Guid id, string nombreCompleto)
+
+        public CrearUsuarioCommand (Guid id, string nombreCompleto, string userName)
         {
             Id = id;
             NombreCompleto = nombreCompleto;
+            UserName = userName;
         }
     }
 }

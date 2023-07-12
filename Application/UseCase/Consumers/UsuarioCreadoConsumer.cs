@@ -20,7 +20,7 @@ namespace Application.UseCase.Consumers
         public async Task Consume(ConsumeContext<UsuarioCreado> context)
         {
             UsuarioCreado @event = context.Message;
-            CrearUsuarioCommand command = new CrearUsuarioCommand(@event.UsuarioId, @event.NombreCompleto);
+            CrearUsuarioCommand command = new CrearUsuarioCommand(@event.UsuarioId, @event.NombreCompleto, @event.UserName);
             await _mediator.Send(command);
 
         }

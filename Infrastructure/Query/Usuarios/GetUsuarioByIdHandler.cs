@@ -38,6 +38,7 @@ namespace Infrastructure.Query.Usuarios
             {
                 Id = usuario.Id,
                 NombreCompleto = usuario.NombreCompleto,
+                UserName = usuario.UserName,
                 ProyectosFavoritos = usuario.ProyectosFavoritos.Select(c => new ProyectoFavoritoDto
                 {
                     Id = c.Id,

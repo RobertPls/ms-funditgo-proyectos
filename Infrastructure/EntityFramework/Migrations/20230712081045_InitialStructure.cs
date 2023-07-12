@@ -28,7 +28,8 @@ namespace Infrastructure.EntityFramework.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    nombreCompleto = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    nombreCompleto = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -6,5 +6,7 @@ namespace Shared.IntegrationEvents
     {
         public Guid UsuarioId { get; set; }
         public string NombreCompleto { get; set; }
+        public string UserName { get; set; }
+
     }
 }

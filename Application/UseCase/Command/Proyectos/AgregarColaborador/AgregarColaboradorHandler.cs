@@ -1,14 +1,9 @@
-﻿using Application.UseCase.Command.Proyectos.CrearProyecto;
-using Domain.Factory.Proyectos;
+﻿using Domain.Model.Proyectos;
+using Domain.Model.Usuarios;
 using Domain.Repository.Proyectos;
 using Domain.Repository.Usuarios;
 using MediatR;
 using SharedKernel.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.UseCase.Command.Proyectos.AgregarColaborador
 {
@@ -27,24 +22,29 @@ namespace Application.UseCase.Command.Proyectos.AgregarColaborador
         public async Task<Guid> Handle(AgregarColaboradorCommand request, CancellationToken cancellationToken)
         {
             var proyecto = await _proyectoRepository.FindByIdAsync(request.ProyectoId);
-            var usuario = await _usuarioRepository.FindByIdAsync(request.UsuarioId);
+            var usuario = await _usuarioRepository.FindByUserNameAsync(request.UserNameUsuario);
 
             if (proyecto == null)
             {
-                throw new Exception("Proyecto no encontrado");
+                throw new BussinessRuleValidationException("Proyecto no encontrado");
             }
 
             if (usuario == null)
             {
-                throw new Exception("Usuario no encontrado");
+                throw new BussinessRuleValidationException("Usuario no encontrado");
             }
 
             if (usuario.Id == proyecto.CreadorId)
             {
-                throw new Exception("El usuario es el creador de este proyecto");
+                throw new BussinessRuleValidationException("El usuario es el creador de este proyecto");
             }
 
-            proyecto.AgregarColaborador(request.UsuarioId);
+            if (!proyecto.EsCreador(request.EjecutorId))
+            {
+                throw new BussinessRuleValidationException("No eres administrador de este proyecto");
+            }
+
+            proyecto.AgregarColaborador(usuario.Id);
 
             await _proyectoRepository.UpdateAsync(proyecto);
             

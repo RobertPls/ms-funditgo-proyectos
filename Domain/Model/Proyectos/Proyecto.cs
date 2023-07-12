@@ -73,7 +73,7 @@ namespace Domain.Model.Proyectos
 
             FechaCreacion = DateTime.Now;
 
-            Estado = nameof(EstadoProyecto.Borrador);
+            Estado = nameof(EstadoProyecto.Revision);
 
             _colaboradores = new List<Colaborador>();
             _donaciones = new List<Donacion>();
@@ -261,7 +261,7 @@ namespace Domain.Model.Proyectos
             return (usuarioId == CreadorId) ? true : false;
         }
 
-        public bool EsCreadorDelComentario(Guid usuarioId, Guid comentarioId)
+        public bool EsCreadorDelComentarioOAdministrador(Guid usuarioId, Guid comentarioId)
         {
             var esCreadorDelComentario = false;
             
@@ -273,7 +273,7 @@ namespace Domain.Model.Proyectos
                 esCreadorDelComentario = (comentario!.UsuarioId == usuarioId) ? true : false;
             }
 
-            return esCreadorDelComentario;
+            return esCreadorDelComentario || EsCreadorOColaborador(usuarioId);
         }
 
         private Proyecto() { }

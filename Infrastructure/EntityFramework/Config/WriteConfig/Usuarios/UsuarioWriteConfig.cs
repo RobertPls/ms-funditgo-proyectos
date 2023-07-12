@@ -19,6 +19,7 @@ namespace Infrastructure.EntityFramework.Config.WriteConfig.Usuarios
             builder.ToTable("Usuario");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.NombreCompleto).HasColumnName("nombreCompleto").HasConversion(nombrePersonaConverter);
+            builder.Property(x => x.UserName).HasColumnName("userName");
 
             builder.Ignore(x => x.DomainEvents);
             builder.Ignore("_domainEvents");

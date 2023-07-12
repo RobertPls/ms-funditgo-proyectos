@@ -1,14 +1,7 @@
-﻿using Application.UseCase.Command.Proyectos.CrearProyecto;
-using Application.UseCase.Command.Proyectos.EliminarColaborador;
-using Domain.Factory.Proyectos;
+﻿using Application.UseCase.Command.Proyectos.EliminarColaborador;
 using Domain.Repository.Proyectos;
 using MediatR;
 using SharedKernel.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.UseCase.Command.Proyectos.AgregarColaborador
 {
@@ -28,7 +21,12 @@ namespace Application.UseCase.Command.Proyectos.AgregarColaborador
 
             if (proyecto == null)
             {
-                throw new Exception("Proyecto no encontrado");
+                throw new BussinessRuleValidationException("Proyecto no encontrado");
+            }
+
+            if (!proyecto.EsCreador(request.EjecutorId))
+            {
+                throw new BussinessRuleValidationException("No eres administrador de este proyecto");
             }
 
             proyecto.EliminarColaborador(request.ColaboradorId);

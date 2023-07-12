@@ -21,7 +21,12 @@ namespace Application.UseCase.Command.Proyectos.AgregarColaborador
 
             if (proyecto == null)
             {
-                throw new Exception("Proyecto no encontrado");
+                throw new BussinessRuleValidationException("Proyecto no encontrado");
+            }
+
+            if (!proyecto.EsCreadorDelComentarioOAdministrador(request.EjecutorId, request.ComentarioId))
+            {
+                throw new BussinessRuleValidationException("No eres tienes permisos para eliminar el comentario");
             }
 
             proyecto.EliminarComentario(request.ComentarioId);

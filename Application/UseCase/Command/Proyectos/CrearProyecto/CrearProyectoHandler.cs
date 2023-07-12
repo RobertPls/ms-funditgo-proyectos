@@ -26,7 +26,7 @@ namespace Application.UseCase.Command.Proyectos.CrearProyecto
 
             if (usuario == null)
             {
-                throw new Exception("Usuario no encontrado");
+                throw new BussinessRuleValidationException("Usuario no encontrado");
             }
 
             var proyecto = _proyectoFactory.Crear(
