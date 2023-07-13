@@ -9,7 +9,6 @@ using Application.UseCase.Command.Proyectos.EnviarProyectoAObservacion;
 using Application.UseCase.Command.Proyectos.EnviarProyectoARevision;
 using Application.UseCase.Command.Proyectos.RechazarProyecto;
 using Application.UseCase.Query.Proyectos;
-using Application.UseCase.Query.Usuarios;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -77,10 +76,13 @@ namespace Web.Controllers
 
         [Route("buscar")]
         [HttpGet]
-        public async Task<IActionResult> BuscarProyecto([FromQuery] Guid? tipoProyectoId, string? titulo, string? estado, string? fechaDesde, string? fechaHasta, decimal? donacionMinima)
+        public async Task<IActionResult> BuscarProyecto([FromQuery] int page, int pageSize, Guid? tipoProyectoId, string? titulo, string? estado, string? fechaDesde, string? fechaHasta, decimal? donacionMinima)
         {
-            var query = new GetListaProyectoQuery
+
+            var queryPage = new GetListaProyectoQuery
             {
+                Page = page,
+                PageSize = pageSize,
                 TipoProyectoId = tipoProyectoId,
                 TituloSearchTerm = titulo,
                 Estado = estado,
@@ -88,16 +90,19 @@ namespace Web.Controllers
                 FechaHasta = fechaHasta,
                 DonacionMinima = donacionMinima,
             };
-            var result = await _mediator.Send(query);
+            var result = await _mediator.Send(queryPage);
+
             return Ok(result);
         }
 
         [Route("buscar/aceptado")]
         [HttpGet]
-        public async Task<IActionResult> BuscarProyectoAceptado([FromQuery] Guid? tipoProyectoId, string? titulo, string? fechaDesde, string? fechaHasta, decimal? donacionMinima)
+        public async Task<IActionResult> BuscarProyectoAceptado([FromQuery] int page, int pageSize, Guid? tipoProyectoId, string? titulo, string? fechaDesde, string? fechaHasta, decimal? donacionMinima)
         {
             var query = new GetListaProyectoQuery
             {
+                Page = page,
+                PageSize = pageSize,
                 TipoProyectoId = tipoProyectoId,
                 TituloSearchTerm = titulo,
                 Estado = "aceptado",

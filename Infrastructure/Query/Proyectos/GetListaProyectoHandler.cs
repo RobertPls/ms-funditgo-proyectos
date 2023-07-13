@@ -1,22 +1,22 @@
 ﻿using Application.Dto.Proyectos;
 using Application.UseCase.Query.Proyectos;
+using Application.Utils;
 using Infrastructure.EntityFramework.Context;
 using Infrastructure.EntityFramework.ReadModel.Proyectos;
 using Infrastructure.Query.Proyectos.Mapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SharedKernel.Core;
 
 namespace Infrastructure.Query.Proyectos
 {
-    internal class GetListaProyectoHandler : IRequestHandler<GetListaProyectoQuery, IEnumerable<ProyectoSimpleDto>>
+    internal class GetListaProyectoHandler : IRequestHandler<GetListaProyectoQuery, PagedList<ProyectoSimpleDto>>
     {
         private readonly DbSet<ProyectoReadModel> proyectos;
         public GetListaProyectoHandler(ReadDbContext dbContext)
         {
             proyectos = dbContext.Proyecto;
         }
-        public async Task<IEnumerable<ProyectoSimpleDto>> Handle(GetListaProyectoQuery request, CancellationToken cancellationToken)
+        public async Task<PagedList<ProyectoSimpleDto>> Handle(GetListaProyectoQuery request, CancellationToken cancellationToken)
         {
             var query = proyectos
                 .Include(p => p.TipoProyecto)
@@ -30,9 +30,12 @@ namespace Infrastructure.Query.Proyectos
             query = FiltrarPorTitulo(query, request.TituloSearchTerm);
             query = FiltrarPorDonacionMinima(query, request.DonacionMinima);
 
+
             var lista = await query.Select(proyecto => ProyectoMapper.MapToProyectoSimpleDto(proyecto)).ToListAsync();
 
-            return lista;
+            var listaPaginada = PagedList<ProyectoSimpleDto>.Create(lista.AsQueryable() ,request.Page,request.PageSize);
+
+            return listaPaginada;
         }
 
         private IQueryable<ProyectoReadModel> FiltrarPorTipoProyecto(IQueryable<ProyectoReadModel> query, Guid? tipoProyectoId)
