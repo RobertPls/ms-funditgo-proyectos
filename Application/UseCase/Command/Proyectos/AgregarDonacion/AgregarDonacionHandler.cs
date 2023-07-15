@@ -1,7 +1,7 @@
 ﻿using Domain.Repository.Proyectos;
 using Domain.Repository.Usuarios;
 using MediatR;
-using SharedKernel.Core;
+using Shared.Core;
 
 namespace Application.UseCase.Command.Proyectos.AgregarDonacion
 {
@@ -39,7 +39,7 @@ namespace Application.UseCase.Command.Proyectos.AgregarDonacion
 
             await _unitOfWork.Commit();
 
-            return proyecto.Id;
+            return proyecto.Donaciones.Last().Id;
         }
     }
 }

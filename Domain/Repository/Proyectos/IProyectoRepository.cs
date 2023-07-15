@@ -1,5 +1,5 @@
 ﻿using Domain.Model.Proyectos;
-using SharedKernel.Core;
+using Shared.Core;
 
 namespace Domain.Repository.Proyectos
 {

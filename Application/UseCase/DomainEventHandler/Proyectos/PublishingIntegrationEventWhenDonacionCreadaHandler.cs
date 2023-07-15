@@ -1,7 +1,7 @@
 ﻿using Domain.Event.Proyectos;
 using MassTransit;
 using MediatR;
-using SharedKernel.Core;
+using Shared.Core;
 
 namespace Application.UseCase.DomainEventHandler.Proyectos
 {

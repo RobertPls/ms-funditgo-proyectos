@@ -1,5 +1,5 @@
-﻿using Domain.ValueObjects;
-using SharedKernel.Core;
+﻿ using Domain.ValueObjects;
+using Shared.Core;
 
 namespace Domain.Model.Proyectos
 {

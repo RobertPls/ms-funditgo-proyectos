@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Core
+namespace Shared.Core
 {
     public class ConfirmedDomainEvent<T> : INotification where T : DomainEvent
     {

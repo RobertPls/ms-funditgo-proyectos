@@ -2,7 +2,7 @@
 using Domain.Repository.Proyectos;
 using Domain.Repository.Usuarios;
 using MediatR;
-using SharedKernel.Core;
+using Shared.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

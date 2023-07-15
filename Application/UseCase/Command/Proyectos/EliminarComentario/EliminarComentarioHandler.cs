@@ -1,7 +1,7 @@
 ﻿using Application.UseCase.Command.Proyectos.EliminarColaborador;
 using Domain.Repository.Proyectos;
 using MediatR;
-using SharedKernel.Core;
+using Shared.Core;
 
 namespace Application.UseCase.Command.Proyectos.AgregarColaborador
 {

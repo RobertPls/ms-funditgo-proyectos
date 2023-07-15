@@ -1,5 +1,5 @@
-﻿using SharedKernel.Core;
-using SharedKernel.Rules;
+﻿using Shared.Core;
+using Shared.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;

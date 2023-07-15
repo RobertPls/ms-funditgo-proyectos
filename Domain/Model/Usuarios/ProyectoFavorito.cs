@@ -1,4 +1,4 @@
-﻿using SharedKernel.Core;
+﻿using Shared.Core;
 
 namespace Domain.Model.Usuarios
 {

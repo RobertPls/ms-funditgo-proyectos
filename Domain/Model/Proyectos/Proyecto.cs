@@ -2,7 +2,7 @@
 using Domain.Model.Proyectos.Enum;
 using Domain.ValueObjects;
 using MediatR;
-using SharedKernel.Core;
+using Shared.Core;
 
 namespace Domain.Model.Proyectos
 {

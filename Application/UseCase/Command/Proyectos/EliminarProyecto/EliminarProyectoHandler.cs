@@ -1,6 +1,6 @@
 ﻿using Domain.Repository.Proyectos;
 using MediatR;
-using SharedKernel.Core;
+using Shared.Core;
 
 namespace Application.UseCase.Command.Proyectos.EliminarProyecto
 {

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Core
+namespace Shared.Core
 {
     [Serializable]
     public class BussinessRuleValidationException : Exception

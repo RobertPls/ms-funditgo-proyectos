@@ -1,7 +1,7 @@
 ﻿using Domain.Repository.Proyectos;
 using Domain.Repository.Usuarios;
 using MediatR;
-using SharedKernel.Core;
+using Shared.Core;
 
 namespace Application.UseCase.Command.Usuarios.AgregarProyectoFavorito
 {

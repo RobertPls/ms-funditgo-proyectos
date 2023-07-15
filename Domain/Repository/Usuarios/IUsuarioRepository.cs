@@ -1,5 +1,5 @@
 ﻿using Domain.Model.Usuarios;
-using SharedKernel.Core;
+using Shared.Core;
 
 namespace Domain.Repository.Usuarios
 {

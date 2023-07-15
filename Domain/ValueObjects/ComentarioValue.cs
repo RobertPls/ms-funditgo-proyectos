@@ -1,5 +1,5 @@
-﻿using SharedKernel.Core;
-using SharedKernel.Rules;
+﻿using Shared.Core;
+using Shared.Rules;
 
 namespace Domain.ValueObjects
 {

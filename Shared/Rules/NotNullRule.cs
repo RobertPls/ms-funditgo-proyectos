@@ -1,11 +1,6 @@
-﻿using SharedKernel.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Shared.Core;
 
-namespace SharedKernel.Rules
+namespace Shared.Rules
 {
     public class NotNullRule : IBussinessRule
     {

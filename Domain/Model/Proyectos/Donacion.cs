@@ -1,6 +1,6 @@
 ﻿using Domain.Model.Proyectos.Enum;
 using Domain.ValueObjects;
-using SharedKernel.Core;
+using Shared.Core;
 
 namespace Domain.Model.Proyectos
 {

@@ -1,6 +1,6 @@
 ﻿using Domain.Event.Usuarios;
 using Domain.ValueObjects;
-using SharedKernel.Core;
+using Shared.Core;
 
 namespace Domain.Model.Usuarios
 {

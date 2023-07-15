@@ -3,7 +3,7 @@ using Domain.Model.Usuarios;
 using Domain.Repository.Proyectos;
 using Domain.Repository.Usuarios;
 using MediatR;
-using SharedKernel.Core;
+using Shared.Core;
 
 namespace Application.UseCase.Command.Proyectos.AgregarColaborador
 {

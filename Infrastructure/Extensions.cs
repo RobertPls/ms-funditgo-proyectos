@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.IntegrationEvents;
-using SharedKernel.Core;
+using Shared.Core;
 using System.Reflection;
 
 namespace Infrastructure
@@ -24,7 +24,7 @@ namespace Infrastructure
         {
             services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
             services.AddAplication();
-            var connectionString = configuration.GetConnectionString("FunditGoProyectoConnection");
+            var connectionString = configuration.GetConnectionString("DbConnectionString");
             services.AddDbContext<ReadDbContext>(context => { context.UseSqlServer(connectionString); });
             services.AddDbContext<WriteDbContext>(context => { context.UseSqlServer(connectionString); });
 
