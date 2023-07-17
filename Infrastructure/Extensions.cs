@@ -12,7 +12,6 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Shared.IntegrationEvents;
 using Shared.Core;
 using System.Reflection;
 
@@ -50,6 +49,7 @@ namespace Infrastructure
                 config.AddConsumer<UsuarioCreadoConsumer>().Endpoint(endpoint => endpoint.Name = UsuarioCreadoConsumer.QueueName);
                 config.AddConsumer<TipoProyectoCreadoConsumer>().Endpoint(endpoint => endpoint.Name = TipoProyectoCreadoConsumer.QueueName);
                 config.AddConsumer<DonacionCompletadaConsumer>().Endpoint(endpoint => endpoint.Name = DonacionCompletadaConsumer.QueueName);
+                config.AddConsumer<RequisitosProyectoCompletadoConsumer>().Endpoint(endpoint => endpoint.Name = RequisitosProyectoCompletadoConsumer.QueueName);
 
                 config.UsingRabbitMq((context, cfg) =>
                 {
@@ -69,6 +69,11 @@ namespace Infrastructure
                     cfg.ReceiveEndpoint(DonacionCompletadaConsumer.QueueName, endpoint =>
                     {
                         endpoint.ConfigureConsumer<DonacionCompletadaConsumer>(context);
+                    });
+
+                    cfg.ReceiveEndpoint(RequisitosProyectoCompletadoConsumer.QueueName, endpoint =>
+                    {
+                        endpoint.ConfigureConsumer<RequisitosProyectoCompletadoConsumer>(context);
                     });
                 });
             }

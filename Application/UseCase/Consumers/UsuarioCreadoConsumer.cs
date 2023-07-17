@@ -1,5 +1,4 @@
-﻿using Application.UseCase.Command.Proyectos.CompletarDonacion;
-using Application.UseCase.Command.Usuarios.CrearUsuario;
+﻿using Application.UseCase.Command.Usuarios.CrearUsuario;
 using MassTransit;
 using MediatR;
 using Shared.IntegrationEvents;

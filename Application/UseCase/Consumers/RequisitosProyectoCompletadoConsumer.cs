@@ -8,8 +8,8 @@ namespace Application.UseCase.Consumers
     public class RequisitosProyectoCompletadoConsumer : IConsumer<RequisitoProyectoCompletado>
     {
         private readonly IMediator _mediator;
-        public const string ExchangeName = "donacion-completada-exchange";
-        public const string QueueName = "donacion-completada-pagos";
+        public const string ExchangeName = "requisito-proyecto-completado-exchange";
+        public const string QueueName = "requisito-proyecto-completado-configuracion";
 
         public RequisitosProyectoCompletadoConsumer(IMediator mediator)
         {

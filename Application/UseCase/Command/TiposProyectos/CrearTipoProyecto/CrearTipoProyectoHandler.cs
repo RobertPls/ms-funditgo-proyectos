@@ -19,10 +19,10 @@ namespace Application.UseCase.Command.TiposProyectos.CrearTipoProyecto
         private readonly ITipoProyectoFactory _tipoProyectoFactory;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CrearTipoProyectoHandler(ITipoProyectoRepository tipoProyectoRepository, IUnitOfWork unitOfWort)
+        public CrearTipoProyectoHandler(ITipoProyectoRepository tipoProyectoRepository, ITipoProyectoFactory tipoProyectoFactory, IUnitOfWork unitOfWort)
         {
             _tipoProyectoRepository = tipoProyectoRepository;
-
+            _tipoProyectoFactory = tipoProyectoFactory;
             _unitOfWork = unitOfWort;
         }
         public async Task<Guid> Handle(CrearTipoProyectoCommand request, CancellationToken cancellationToken)

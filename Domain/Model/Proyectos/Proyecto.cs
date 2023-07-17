@@ -73,7 +73,7 @@ namespace Domain.Model.Proyectos
 
             FechaCreacion = DateTime.Now;
 
-            Estado = nameof(EstadoProyecto.Revision);
+            Estado = nameof(EstadoProyecto.Borrador);
 
             _colaboradores = new List<Colaborador>();
             _donaciones = new List<Donacion>();

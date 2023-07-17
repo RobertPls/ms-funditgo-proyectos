@@ -20,7 +20,7 @@ namespace Domain.Model.TiposProyectos
                 throw new BussinessRuleValidationException("Necesita un id");
             }
 
-            Id = Guid.NewGuid();
+            Id = id;
             Nombre = nombre;
         }
         private TipoProyecto() { }

@@ -13,9 +13,9 @@ namespace Infrastructure.EntityFramework.Config.ReadConfig.Proyectos
             builder.Property(x => x.Id).HasColumnName("id");
             builder.Property(x => x.Estado).HasColumnName("estado");
             builder.Property(x => x.Monto).HasColumnName("monto").HasPrecision(14, 2);
-            builder.Property(x => x.UsuarioId).HasColumnName("usuarioId");
-
             builder.Property(x => x.ProyectoId).HasColumnName("proyectoId");
+
+            builder.Property(x => x.UsuarioId).HasColumnName("usuarioId");
             builder.HasOne(x => x.Usuario).WithMany().HasForeignKey(x => x.UsuarioId);
         }
     }

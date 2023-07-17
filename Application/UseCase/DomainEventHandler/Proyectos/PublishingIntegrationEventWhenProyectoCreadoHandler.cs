@@ -24,7 +24,10 @@ namespace Application.UseCase.DomainEventHandler.Proyectos
             Shared.IntegrationEvents.ProyectoCreado evento = new Shared.IntegrationEvents.ProyectoCreado()
             {
                 ProyectoId = notification.DomainEvent.ProyectoId,
+                CreadorId = notification.DomainEvent.CreadorId,
+                TipoProyectoId = notification.DomainEvent.TipoProyectoId,
                 Titulo = notification.DomainEvent.Titulo,
+                Estado = notification.DomainEvent.Estado,
             };
             await _publishEndpoint.Publish<Shared.IntegrationEvents.ProyectoCreado>(evento);
 
