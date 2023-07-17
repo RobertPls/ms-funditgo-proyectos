@@ -163,7 +163,7 @@ namespace Domain.Model.Proyectos
 
             if (monto < DonacionMinima)
             {
-                throw new BussinessRuleValidationException($"La donación mínima requerida es de {DonacionMinima}");
+                throw new BussinessRuleValidationException($"La donación mínima requerida es de {DonacionMinima.Value}");
             }
 
             var donacion = new Donacion(usuarioId, monto);
